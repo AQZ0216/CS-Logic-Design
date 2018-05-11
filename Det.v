@@ -31,7 +31,7 @@ module Det(clk,i,j,reset,read,write,read_data,write_data,finish);
 			write_data <= 40'd0;
 			state <= `S0;
 			cnt <= 20'd0;
-			sum <= 40'd0;
+			sum <= 40'd1;
 		end
 		else
 		begin
