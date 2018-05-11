@@ -2,5 +2,4 @@
 
 # Lab4
   MM.v
-  
   Det.v
