@@ -57,7 +57,7 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 	assign m1_column = (state == `S0 && i == 20'd1) ? read_data : m1_column;
 	assign m2_column = (state == `S0 && i == 20'd2) ? read_data : m2_column;
 	assign a = (state == `S1) ? read_data : a; //to record the value of a temporary
-	assign write_data = (state == `S3) ? sum^{40{sum[39]}} + sum[39] : write_data; //need 2's complement 
+	assign write_data = (state == `S3) ? sum : write_data;
 	
 	always @*
 	begin
