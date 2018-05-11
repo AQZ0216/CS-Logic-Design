@@ -11,15 +11,15 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 	output reg [19:0] i, j;
 	output reg read, write;
 	output reg index;
-	output [39:0] write_data;
+	output reg [39:0] write_data;
 	output reg finish;
 	
 	reg [19:0] next_i, next_j;
+	reg [39:0] write_data;
 	wire next_finish;
 	
 	reg [1:0] state, next_state;
 	
-	reg [39:0] sum, next_sum; //to sum up a*b
 	wire [19:0] a; //to record the value of a temporary
 	
 	wire [19:0] m1_row;
@@ -33,20 +33,20 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
     		begin
 			i <= 20'd0;
 			j <= 20'd0;
+			write_data <= 40'd0;
 			row <= 20'b0;
 			column <= 20'b0;
 			state <= `S0;
-			sum <= 40'd0;
 			finish <= 1'd0;
 		end
 		else
 		begin
 			i <= next_i;
 			j <= next_j;
+			write_data <= next_write_data;
 			row <= next_row;
 			column <= next_column;
 			state <= next_state;
-			sum <= next_sum;
 			finish <= next_finish;
 		end
 	end
@@ -57,16 +57,15 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 	assign m1_column = (state == `S0 && i == 20'd1) ? read_data : m1_column;
 	assign m2_column = (state == `S0 && i == 20'd2) ? read_data : m2_column;
 	assign a = (state == `S1) ? read_data : a; //to record the value of a temporary
-	assign write_data = (state == `S3) ? sum : write_data;
 	
 	always @*
 	begin
 		next_i = i;
 		next_j = j;
+		next_write_data = write_data;
 		next_row = row;
 		next_column = column;
 		next_state = state;
-		next_sum = sum;
 		
 		case(state)
 			`S0: begin //read the scale of a, b matrix
@@ -99,7 +98,7 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 				write = 1'b0;
 				index = 1'b1;
 				
-				next_sum = sum + { {20{a[19]}}, a} * { {20{read_data[19]}}, read_data}; //multiply a and b, which needs sign extension
+				next_write_data = write_data + { {20{a[19]}}, a} * { {20{read_data[19]}}, read_data}; //multiply a and b, which needs sign extension
 				
 				if(i == m1_column - 20'd1)
 					next_state = `S3;
@@ -118,7 +117,7 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 				
 				next_state = `S1;
 				next_j = 20'd0;
-				next_sum = 40'd0;
+				next_write_data = 40'd0;
 				
 				if(column == m2_column - 20'd1) //change the row and column
 				begin
