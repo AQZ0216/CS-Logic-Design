@@ -18,7 +18,8 @@ module Det(clk,i,j,reset,read,write,read_data,write_data,finish);
 	reg [39:0] next_write_data;
 	
 	reg [1:0] state, next_state;
-	reg [19:0] cnt, next_cnt;	
+	reg [19:0] cnt, next_cnt;
+	reg [39:0] sum, next_sum;
 	wire [19:0] row_column;
 	
 	always @(posedge clk or posedge reset)
@@ -29,7 +30,8 @@ module Det(clk,i,j,reset,read,write,read_data,write_data,finish);
 			j <= 20'd0;
 			write_data <= 40'd0;
 			state <= `S0;
-			cnt <= 20'd0
+			cnt <= 20'd0;
+			sum <= 40'd0;
 		end
 		else
 		begin
@@ -38,6 +40,7 @@ module Det(clk,i,j,reset,read,write,read_data,write_data,finish);
 			write_data <= next_write_data;
 			state <= next_state;
 			cnt <= next_cnt;
+			sum <= next_sum;
 		end
 	end
 	
@@ -52,6 +55,7 @@ module Det(clk,i,j,reset,read,write,read_data,write_data,finish);
 		next_write_data = write_data;
 		next_state = state;
 		next_cnt = cnt;
+		next_sum = sum;
 		
 		case(state)
 			`S0: begin
@@ -63,10 +67,12 @@ module Det(clk,i,j,reset,read,write,read_data,write_data,finish);
 				read = 1'b1;
 				write = 1'b0;
 				
-				next_write_data = write_data + read_data;
+				next_sum = sum * { {20{read_data[19]}}, read_data};
 				
 				if(j == row_column - 20'd1)
 				begin
+					next_sum = 40'd0;
+					next_write_data = write_data + sum;
 					if(cnt == row_column - 20'd1)
 					begin
 						next_state = `S2;
@@ -96,18 +102,18 @@ module Det(clk,i,j,reset,read,write,read_data,write_data,finish);
 				read = 1'b1;
 				write = 1'b0;
 				
-				next_write_data = write_data - read_data;
+				next_sum = sum * { {20{read_data[19]}}, read_data};
 				
 				if(j == row_column - 20'd1)
 				begin
+					next_sum = 40'd0;
+					next_write_data = write_data - sum;
+					next_cnt = cnt + 20'd1;
+					next_i = cnt + 20'd1;
+					next_j = 20'd0;
+					
 					if(cnt == row_column - 20'd1)
 						next_state = `S3;
-					else
-					begin
-						next_cnt = cnt + 20'd1;
-						next_i = cnt + 20'd1;
-						next_j = 20'd0;
-					end
 				end
 				else if(i == 20'd0)
 				begin
