@@ -101,18 +101,16 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 				
 				if(i == m1_column - 20'd1)
 					next_state = `S3;
-				else
-				begin
-					next_i = row; //the i of a will equal to the i of c
-					next_j = i + 20'd1;
+				else					
 					next_state = `S1;
-				end
+				
+				next_i = row; //the i of a will equal to the i of c
+				next_j = i + 20'd1;
 			end	
 			
 			`S3: begin //write
 				read = 1'b0;
 				write = 1'b1;
-				index = 1'b0;
 				
 				next_state = `S1;
 				next_j = 20'd0;
