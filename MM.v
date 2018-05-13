@@ -15,7 +15,7 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 	output reg finish;
 	
 	reg [19:0] next_i, next_j;
-	reg [39:0] write_data;
+	reg [39:0] next_write_data;
 	wire next_finish;
 	
 	reg [1:0] state, next_state;
