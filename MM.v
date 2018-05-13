@@ -71,6 +71,7 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 			`S0: begin //read the scale of a, b matrix
 				read = 1'b1;
 				write = 1'b1;
+				index = 1'b0;
 				
 				if(i == 20'd2)
 				begin
@@ -111,6 +112,7 @@ module MM(clk,i,j,reset,read,write,index,read_data,write_data,finish);
 			`S3: begin //write
 				read = 1'b0;
 				write = 1'b1;
+				index = 1'b0;
 				
 				next_state = `S1;
 				next_j = 20'd0;
