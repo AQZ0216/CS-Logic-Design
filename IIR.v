@@ -77,7 +77,7 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	assign next_s1 = s2;
 	assign next_s2 = s3;
 	assign next_s3 = s4;
-	assign next_s4 = Din;
+	assign next_s4 = DIn;
 	
 	assign next_new_s0 = new_s1;
 	assign next_new_s1 = new_s2;
@@ -85,7 +85,7 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	assign next_new_s3 = new_s4;
 	assign next_new_s4 = Yn;
 	
-	assign ans = `a0*{{16{s0[15]}}, s0} + `a1*{{16{s1[15]}}, s1} + `a2*{{16{s2[15]}}, s2} + `a3*{{16{s3[15]}}, s3} + `a4*{{16{s4[15]}}, s4} + `a5*{{16{Din[15]}}, Din} 
+	assign ans = `a0*{{16{s0[15]}}, s0} + `a1*{{16{s1[15]}}, s1} + `a2*{{16{s2[15]}}, s2} + `a3*{{16{s3[15]}}, s3} + `a4*{{16{s4[15]}}, s4} + `a5*{{16{DIn[15]}}, DIn} 
 		- `b0*{{16{new_s0[15]}}, new_s0} - `b1*{{16{new_s1[15]}}, new_s1} - `b2*{{16{new_s2[15]}}, new_s2} - `b3*{{16{new_s3[15]}}, new_s3} - `b4*{{16{new_s4[15]}}, new_s4}; 
 	assign Yn = ans[31:16];
 	
