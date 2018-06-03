@@ -28,7 +28,7 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	reg [24:0] new_s0, new_s1, new_s2, new_s3, new_s4;
 	wire [24:0] next_s0, next_s1, next_s2, next_s3, next_s4;
 	wire [24:0] next_new_s0, next_new_s1, next_new_s2, next_new_s3, next_new_s4;
-	wire [24:0] sum;
+	wire [31:0] sum;
 	
 	always @(posedge clk or posedge rst)
 	begin
@@ -83,11 +83,11 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	assign next_new_s1 = new_s2;
 	assign next_new_s2 = new_s3;
 	assign next_new_s3 = new_s4;
-	assign next_new_s4 = sum; 
+	assign next_new_s4 = sum[31:7]; 
 	
 	assign sum = `a0*s0 + `a1*s1 + `a2*s2 + `a3*s3 + `a4*s4 + `a5*{{2{DIn[15]}}, DIn, {7{1'b0}}}
 		+ `b0*new_s0 - `b1*new_s1 + `b2*new_s2- `b3*new_s3 + `b4*new_s4;
 	
-	assign Yn =  {sum[24], sum[21:7]};
+	assign Yn = sum[31:16];
 	
 endmodule
