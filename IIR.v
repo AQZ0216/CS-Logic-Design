@@ -75,11 +75,11 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	assign next_s3 = s4;
 	assign next_s4 = s5;
 	
-	assign next_new_s0 = {{2{new_s1[15]}}, new_s1, {7{1'b0}}};
-	assign next_new_s1 = {{2{new_s2[15]}}, new_s2, {7{1'b0}}};
-	assign next_new_s2 = {{2{new_s3[15]}}, new_s3, {7{1'b0}}};
-	assign next_new_s3 = {{2{new_s4[15]}}, new_s4, {7{1'b0}}};
-	assign next_new_s4 = {{2{sum[15]}}, sum, {7{1'b0}}}; 
+	assign next_new_s0 = {new_s1[24:7], {7{1'b0}}};
+	assign next_new_s1 = {new_s2[24:7], {7{1'b0}}};
+	assign next_new_s2 = {new_s3[24:7], {7{1'b0}}};
+	assign next_new_s3 = {new_s4[24:7], {7{1'b0}}};
+	assign next_new_s4 = {sum[24:7], {7{1'b0}}}; 
 	
 	assign weight_s5 = (s5>>>6) + (s5>>>9) + (s5>>>10) + (s5>>>11) + (s5>>>12) + (s5>>>13) + (s5>>>16);
 	assign weight_s4 = (s4>>>6) + (s4>>>8) + (s4>>>10) + (s4>>>11) + (s4>>>14) + (s4>>>15) + (s4>>>16);
