@@ -13,7 +13,7 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	wire next_Finish;
 	
 	reg signed [24:0] s0, s1, s2, s3, s4;
-	reg signed [24:0] s5;
+	wire signed [24:0] s5;
 	reg signed [24:0] new_s0, new_s1, new_s2, new_s3, new_s4;
 	wire signed [24:0] next_s0, next_s1, next_s2, next_s3, next_s4;
 	wire signed [24:0] next_new_s0, next_new_s1, next_new_s2, next_new_s3, next_new_s4;
