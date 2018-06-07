@@ -6,11 +6,12 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	
 	output WEN, load;
 	output reg Finish;
-	output signed [15:0] Yn;
+	output reg signed [15:0] Yn;
 	output reg [19:0] RAddr, WAddr;
 	
 	wire [19:0] next_RAddr, next_WAddr;
 	wire next_Finish;
+	wire signed [15:0] next_Yn;
 	
 	reg signed [24:0] s0, s1, s2, s3, s4;
 	wire signed [24:0] s5;
@@ -38,6 +39,7 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 			new_s2 <= 25'd0;
 			new_s3 <= 25'd0;
 			new_s4 <= 25'd0;
+			Yn <= 15'b0;
 		end
 		else
 		begin
@@ -54,6 +56,7 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 			new_s2 <= next_new_s2;
 			new_s3 <= next_new_s3;
 			new_s4 <= next_new_s4;
+			Yn <= next_Yn;
 		end
 	end
 	
@@ -93,6 +96,6 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 	assign sum = weight_s5 + weight_s4 + weight_s3 + weight_s2 + weight_s1 + weight_s0 
 		+ weight_new_s4 - weight_new_s3 + weight_new_s2 - weight_new_s1 + weight_new_s0;
 	
-	assign Yn = {sum[24], sum[21:7]};
+	assign next_Yn = {sum[24], sum[21:7]};
 	
 endmodule
