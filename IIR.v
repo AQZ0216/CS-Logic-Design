@@ -39,7 +39,7 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 			new_s2 <= 25'd0;
 			new_s3 <= 25'd0;
 			new_s4 <= 25'd0;
-			Yn <= 15'b0;
+			Yn <= 16'b0;
 		end
 		else
 		begin
