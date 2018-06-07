@@ -2,23 +2,23 @@ module IIR(clk,rst,load,DIn,RAddr,data_done,WEN,Yn,WAddr,Finish);
 
 	input clk ,rst;
 	input data_done;
-	input [15:0] DIn;
+	input signed [15:0] DIn;
 	
 	output WEN, load;
 	output reg Finish;
-	output [15:0] Yn;
+	output signed [15:0] Yn;
 	output reg [19:0] RAddr, WAddr;
 	
 	wire [19:0] next_RAddr, next_WAddr;
 	wire next_Finish;
 	
-	reg [24:0] s0, s1, s2, s3, s4, s5;
-	reg [24:0] new_s0, new_s1, new_s2, new_s3, new_s4;
-	wire [24:0] next_s0, next_s1, next_s2, next_s3, next_s4;
-	wire [24:0] next_new_s0, next_new_s1, next_new_s2, next_new_s3, next_new_s4;
-	wire [24:0] weight_s0, weight_s1, weight_s2, weight_s3, weight_s4, weight_s5;
-	wire [24:0] weight_new_s0, weight_new_s1, weight_new_s2, weight_new_s3, weight_new_s4;
-	wire [24:0] sum;
+	reg signed [24:0] s0, s1, s2, s3, s4, s5;
+	reg signed [24:0] new_s0, new_s1, new_s2, new_s3, new_s4;
+	wire signed [24:0] next_s0, next_s1, next_s2, next_s3, next_s4;
+	wire signed [24:0] next_new_s0, next_new_s1, next_new_s2, next_new_s3, next_new_s4;
+	wire signed [24:0] weight_s0, weight_s1, weight_s2, weight_s3, weight_s4, weight_s5;
+	wire signed [24:0] weight_new_s0, weight_new_s1, weight_new_s2, weight_new_s3, weight_new_s4;
+	wire signed [24:0] sum;
 	
 	always @(posedge clk or posedge rst)
 	begin
