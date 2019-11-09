@@ -1,4 +1,4 @@
-# CS_logic_design
+# CS-Logic-Design
 
 # Lab4
   * MM.v
