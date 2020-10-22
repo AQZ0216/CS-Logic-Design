@@ -1,7 +1,7 @@
 # CS-Logic-Design
 
-# Lab4
+## Lab4
   * MM.v
   * Det.v (it's wrong!!!)
-# Lab5
+## Lab5
  * IIR.v (it's wrong again)
